@@ -1,0 +1,47 @@
+/**
+ * 考点：Array、Prefix Sum
+ * 题目：Product of Array Except Self（除自身以外数组的乘积）
+ * 题目描述：
+ *   给你一个整数数组 nums，返回 数组 answer，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。
+ *   题目数据保证数组 nums 之中任意元素的全部前缀元素和后缀的乘积都在 32 位整数范围内。
+ *   请不要使用除法，且在 O(n) 时间复杂度内完成此题。
+ *   示例 1：
+ *   输入：nums = [1,2,3,4]
+ *   输出：[24,12,8,6]
+ *   示例 2：
+ *   输入：nums = [-1,1,0,-3,3]
+ *   输出：[0,0,9,0,0]
+ *   提示：
+ *   - 2 <= nums.length <= 10^5
+ *   - -30 <= nums[i] <= 30
+ *   - 输入 nums 中任意元素的全部前缀元素和后缀的乘积都在 32 位整数范围内
+ *   进阶：你可以在 O(1) 的额外空间复杂度内完成这个题目吗？（出于对空间复杂度分析的目的，输出数组不被视为额外空间。）
+ * 思路：
+ *   1. answer[i] 可以拆分为「nums[0..i-1] 的乘积」乘以「nums[i+1..n-1] 的乘积」。
+ *   2. 第一次从左向右遍历：维护 left 变量，表示当前位置左侧所有元素的乘积，将其存入 answer[i]。
+ *   3. 第二次从右向左遍历：维护 right 变量，表示当前位置右侧所有元素的乘积，将其乘到 answer[i] 上。
+ *   4. 两次遍历后，answer[i] 即为左侧乘积与右侧乘积的乘积，也就是除自身以外的所有元素乘积。
+ * 算法：前缀积 —— 两次线性扫描分别维护左侧和右侧累积乘积。
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(1)，除输出数组外
+ */
+public class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] answer = new int[n];
+
+        int left = 1;
+        for (int i = 0; i < n; i++) {
+            answer[i] = left;
+            left *= nums[i];
+        }
+
+        int right = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            answer[i] *= right;
+            right *= nums[i];
+        }
+
+        return answer;
+    }
+}
