@@ -1,0 +1,7 @@
+For the Equip Coding Assessment, we evaluate candidates on their overall engineering quality rather than just whether they arrive at the correct solution. Common reasons candidates don't progress include:
+
+Code quality and maintainability not meeting the expected standard.
+Problem-solving approach lacking structure or robustness.
+Implementation not demonstrating strong production engineering practices.
+Technical depth not aligned with the level of the role.
+In some cases, the assessment identifies behaviour that violates the assessment guidelines or raises integrity concerns, and those candidates are not progressed.
