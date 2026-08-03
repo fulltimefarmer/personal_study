@@ -24,3 +24,13 @@ target/
 .classpath
 .project
 .settings/
+
+### Python ###
+__pycache__/
+*.py[cod]
+*.pyo
+
+### Python virtual environment ###
+.venv/
+venv/
+env/
