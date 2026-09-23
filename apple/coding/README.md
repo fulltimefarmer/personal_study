@@ -1,10 +1,14 @@
 # CoderPad 模拟编程题 · Mock Coding Questions
 
-> 本目录包含 8 道基于**苹果高频题库**（据 LeetCode 标签 + 候选者反馈，2026）与**本岗位 JD**（Node.js/TypeScript 全栈）精选的编程题。
+> 本目录包含 18 道基于**苹果高频题库**（据 LeetCode 标签 + 候选者反馈，2026）与**本岗位 JD**（Node.js/TypeScript 全栈）精选的编程题。
 > 每题一个文件夹，含三个文件：
 > - `problem.md` — 题干（中英双语）
 > - `solution.md` — 解答（中文考点分析 + 解题思路 + 参考代码 + 复杂度 + 追问）
 > - `solution.ts` — 代码空壳（预生成函数签名、类型与测试骨架，供 CoderPad 直接填充）
+
+> **非算法题**（JS 工具 / 后端基础设施）见子目录：
+> - [`js-utility/`](./js-utility/README.md) — 前端/JS 手写工具题（debounce、throttle、Promise.all、EventEmitter、flatten）
+> - [`backend-practical/`](./backend-practical/README.md) — 后端/基础设施/TS 类型题（并发池、指数退避、TTL 缓存、令牌桶限流、DeepPartial）
 
 ## 题目清单 / Problem Index
 
@@ -18,6 +22,16 @@
 | 06 | Course Schedule | 207 | 图拓扑排序/判环 | Medium | 高频 |
 | 07 | Product of Array Except Self | 238 | 前缀积 | Medium | 高频 |
 | 08 | Top K Frequent Elements | 347 | 堆/桶排序 | Medium | 高频 |
+| 09 | Reverse Linked List | 206 | 链表/迭代/递归 | Easy | 高频 |
+| 10 | Valid Parentheses | 20 | 栈 | Easy | 高频 |
+| 11 | 3Sum | 15 | 排序 + 双指针 | Medium | 高频 |
+| 12 | Clone Graph | 133 | 图 DFS/BFS + 哈希 | Medium | 高频 |
+| 13 | Meeting Rooms | 252 | 排序/区间 | Easy | 高频 |
+| 14 | Design Hit Counter | 362 | 设计/队列/时间窗口 | Medium | 高频 |
+| 15 | Task Scheduler | 621 | 贪心/计数/堆 | Medium | 高频 |
+| 16 | Best Time to Buy and Sell Stock | 121 | 前缀最小值/贪心 | Easy | 高频 |
+| 17 | Valid Palindrome | 125 | 双指针/字符串 | Easy | 高频 |
+| 18 | Longest Substring Without Repeating Characters | 3 | 滑动窗口/哈希 | Medium | 高频 |
 
 ## 答题建议 / Interview Tips
 
@@ -28,7 +42,7 @@
 
 ## 苹果高频题速查 / Apple High-Frequency Cheat Sheet
 
-据 crackedprep（303 题）、dsaprep（375 题）、PracHub、Exponent 等 2026 数据汇总：
+据 crackedprep（303 题）、dsaprep（375 题）、PracHub、Exponent 等 2026 数据汇总（下表题目现已全部收录，见上方「题目清单」）：
 
 | 题目 | 难度 | 核心思路 |
 | --- | --- | --- |

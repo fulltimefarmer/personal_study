@@ -2,7 +2,14 @@
 // 返回和为目标值的两个元素下标。
 
 function twoSum(nums: number[], target: number): number[] {
-  // TODO: 用哈希表一次遍历，空间换时间
+  const seen = new Map<number, number>();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (seen.has(complement)) {
+      return [i, seen.get(complement)!];
+    }
+    seen.set(nums[i], i);
+  }
   return [];
 }
 
