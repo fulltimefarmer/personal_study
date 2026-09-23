@@ -1,0 +1,20 @@
+{
+  "name": "apple-interview-basics",
+  "private": true,
+  "version": "1.0.0",
+  "description": "TypeScript & React 基础语法练习（Apple 面试准备）",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "run": "tsx"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
