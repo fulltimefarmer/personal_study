@@ -1,0 +1,16 @@
+{
+  "name": "ts-basics",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "TypeScript 基础语法学习（含中文注释与每个文件的验证方法）",
+  "scripts": {
+    "run": "tsx",
+    "typecheck": "tsc --noEmit",
+    "verify": "for f in 01-*.ts 02-*.ts 03-*.ts 04-*.ts 05-*.ts 06-*.ts 07-*.ts 08-*.ts 09-*.ts 10-*.ts 11-*.ts 12-*.ts 13-*.ts 14-*.ts; do echo \"===== $f =====\"; npx tsx \"$f\"; echo; done"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
