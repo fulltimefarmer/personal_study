@@ -1,0 +1,50 @@
+{
+  "total": 384,
+  "docs": [
+    {
+      "file": "Java开发面试高频题库.docx",
+      "title": "Java 开发面试高频题库",
+      "sections": 4,
+      "total": 103,
+      "five": 39,
+      "four": 40,
+      "three": 24
+    },
+    {
+      "file": "SpringCloud微服务面试高频题库.docx",
+      "title": "Spring Cloud 微服务面试高频题库",
+      "sections": 9,
+      "total": 85,
+      "five": 38,
+      "four": 39,
+      "three": 8
+    },
+    {
+      "file": "中间件面试高频题库.docx",
+      "title": "中间件面试高频题库",
+      "sections": 4,
+      "total": 78,
+      "five": 36,
+      "four": 31,
+      "three": 11
+    },
+    {
+      "file": "SQL与MySQL面试高频题库.docx",
+      "title": "SQL 与 MySQL 面试高频题库",
+      "sections": 4,
+      "total": 65,
+      "five": 28,
+      "four": 30,
+      "three": 7
+    },
+    {
+      "file": "其他面试高频题库.docx",
+      "title": "其他面试高频题库",
+      "sections": 5,
+      "total": 53,
+      "five": 20,
+      "four": 28,
+      "three": 5
+    }
+  ]
+}

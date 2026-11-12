@@ -12,7 +12,8 @@ personal_study/
 ├── fundamentals/        # 计算机基础知识笔记
 ├── leetcode/            # LeetCode 题解（Python + TypeScript）
 ├── sql/                 # SQL 题解
-└── system-design/       # 系统设计题解
+├── system-design/       # 系统设计题解
+└── interview/           # Java 后端面试题库（Word，按频率排序）
 ```
 
 ---
@@ -124,6 +125,22 @@ npx tsc --noEmit
 
 ---
 
+### interview/ — Java 后端面试题库（Word）
+
+5 个 Word 文档，**384 道题**，覆盖 Java、Spring Cloud、中间件、SQL 与通用后端考点。每题标注面试出现频率（★），并在每章内按频率降序排列，附简明答题要点。
+
+| 文档 | 题目数 | 重点 |
+|------|--------|------|
+| Java开发面试高频题库.docx | 103 | Java 基础、集合、高并发、JVM |
+| SpringCloud微服务面试高频题库.docx | 85 | Spring Boot、服务治理、网关、熔断限流、链路追踪、Seata |
+| 中间件面试高频题库.docx | 78 | Redis、Kafka、Nacos、RocketMQ/RabbitMQ |
+| SQL与MySQL面试高频题库.docx | 65 | 索引、事务锁、优化、分库分表、场景 SQL |
+| 其他面试高频题库.docx | 53 | 分布式理论、高并发架构、场景设计、网络/Linux、设计模式 |
+
+详见 [interview/README.md](interview/README.md)。
+
+---
+
 ## 技术栈总览
 
 | 语言 / 工具 | 用途 |
@@ -146,4 +163,5 @@ npx tsc --noEmit
 | LeetCode 题解 | 261 |
 | SQL 题解 | 30 |
 | 系统设计方案 | 4 |
-| **合计** | **321** |
+| 面试题库（Word） | 384 |
+| **合计** | **705** |
