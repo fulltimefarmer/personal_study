@@ -127,15 +127,15 @@ npx tsc --noEmit
 
 ### interview/ — Java 后端面试题库（Word）
 
-5 个 Word 文档，**384 道题**，覆盖 Java、Spring Cloud、中间件、SQL 与通用后端考点。每题标注面试出现频率（★），并在每章内按频率降序排列，附简明答题要点。
+5 个 Word 文档，**680 道题**，覆盖 Java、Spring Cloud、数据库与中间件、系统设计与优化及通用后端考点。每题标注面试出现频率（★），并在每章内按频率降序排列；全部文档均提供“标准回答、深入回答、适用案例”三段式解析，Java 文档包含 JDK 9—21 专题，Spring Cloud 文档包含 Dubbo 专题。
 
 | 文档 | 题目数 | 重点 |
 |------|--------|------|
-| Java开发面试高频题库.docx | 103 | Java 基础、集合、高并发、JVM |
-| SpringCloud微服务面试高频题库.docx | 85 | Spring Boot、服务治理、网关、熔断限流、链路追踪、Seata |
-| 中间件面试高频题库.docx | 78 | Redis、Kafka、Nacos、RocketMQ/RabbitMQ |
-| SQL与MySQL面试高频题库.docx | 65 | 索引、事务锁、优化、分库分表、场景 SQL |
-| 其他面试高频题库.docx | 53 | 分布式理论、高并发架构、场景设计、网络/Linux、设计模式 |
+| Java开发面试高频题库.docx | 144 | Java 基础、集合、高并发、JVM、JDK 9—21（三段式解析） |
+| SpringCloud微服务面试高频题库.docx | 110 | Spring Boot、服务治理、网关、熔断限流、链路追踪、Seata、Dubbo（三段式解析） |
+| DB与中间件面试高频题库.docx | 239 | SQL、MySQL、PostgreSQL、Redis、Kafka、Nacos、消息队列、ES、MongoDB、ZooKeeper、Neo4j、ClickHouse（三段式解析） |
+| 系统设计与优化面试高频题库.docx | 90 | 设计方法论、高并发高可用、性能优化、存储、消息、典型系统、线上排障（三段式解析） |
+| 其他面试高频题库.docx | 97 | 分布式理论、高并发架构、场景设计、网络/Linux、HTTPS、设计模式、DDD、gRPC（三段式解析） |
 
 详见 [interview/README.md](interview/README.md)。
 
@@ -163,5 +163,5 @@ npx tsc --noEmit
 | LeetCode 题解 | 261 |
 | SQL 题解 | 30 |
 | 系统设计方案 | 4 |
-| 面试题库（Word） | 384 |
-| **合计** | **705** |
+| 面试题库（Word） | 680 |
+| **合计** | **1001** |
