@@ -1,0 +1,120 @@
+
+
+
+Max Zhou
+Don't be evil~
+   
+ 
+Male38 years oldShanghai, China10+ Years' Experience
+17602110893zhoujun9633@163.com
+Job preferences
+  
+
+ 
+Senior Software Engineer
+
+ 
+Shanghai, China
+
+   
+Job
+hunting
+-immediately
+About me
+Senior Software Engineer with 13+ years of full-stack development experience focused on retail e-
+commerce. Held core engineering roles at global industry leaders including The LEGO Group, Tesla,
+Nike and eBay, with a proven track record of building core business systems from scratch, driving
+architecture upgrades, and leading engineering teams. Deep expertise in the Spring ecosystem,
+microservice architecture and distributed system design. Led high-concurrency optimization and high-
+availability transformation for e-commerce platforms supporting millions of requests, with extensive
+experience ensuring system stability during peak promotion events. Hands-on experience in AI
+application engineering, having delivered a RAG-powered intelligent shopping assistant end to end.
+Proficient in vibe coding workflows, leveraging AI-assisted development tools to rapidly validate
+solutions and boost engineering delivery efficiency. Strong product mindset and cross-functional
+collaboration skills, committed to engineering excellence and continuous learning of emerging
+technologies.
+Work experience
+2022.12-2025.8The LEGO groupSenior full stack software
+engineer
+**Multi-Channel Order System** - Integrated mainstream C-end order channels including Meituan,
+Ele.me and [JD.com](https://JD.com), built end-to-end pipelines for real-time order ingestion, rule-
+based validation and automated distribution to offline dealer store systems. - Designed event-driven
+asynchronous architecture with message queue peak-shaving, circuit breaker and rate limiting
+mechanisms to absorb highly volatile traffic from takeout platforms, maintaining stable performance
+during meal rush hours and large-scale promotional events. - Implemented idempotent processing
+and fault-tolerant retry mechanisms for concurrent and out-of-order requests, guaranteeing eventual
+data consistency and 100% order processing accuracy.
+**Product Master Data Management System** - Owned full lifecycle management of LEGO product
+master data, covering creation, modification and delisting, with automated distribution to all
+downstream business systems. - Resolved strong field coupling issues by implementing annotation-
+
+based linked field auto-update via AOP, reducing system maintenance cost and manual operation
+errors significantly.
+**Mobile Sales Dashboard** - Developed a mobile-side sales reporting system with multi-dimensional
+filtering and custom date range query capabilities for frontline sales teams. - Optimized year-over-year
+and month-over-month real-time calculation performance via progressive rendering, cutting first-
+screen load time by 70%.
+**AI Shopping Assistant (WeChat Mini Program)** - Led end-to-end design and delivery of an AI-
+powered shopping assistant embedded in LEGO’s WeChat e-commerce mini program, built on RAG
+architecture to deliver personalized product recommendations across the full SKU catalog. - Defined
+the full technical stack including BGE Chinese embedding model, Milvus vector database and Qwen
+large language model, and implemented the complete pipeline: data cleaning & chunking, batch
+vectorization, semantic retrieval, prompt engineering, LLM integration and mini-program frontend
+interaction. - Reduced manual customer service workload and improved recommendation accuracy
+and conversion rate after official launch.
+2020.11-2022.12TeslaSenior Full stack software
+engineer
+** Tesla offical eShop ** 
+- Served as Project Owner of Tesla China Official Online Shop 
+(https://shop.tesla.cn)), led a 5-member engineering team to localize and deliver the e-commerce
+platform, covering requirement review, architecture design, development and production operation.
+ - Drove architecture upgrade from monolithic system to high-concurrency, high-availability
+distributed architecture. Designed multi-level caching and asynchronous peak-shaving solutions,
+supporting 1 million requests per minute during promotions with 99.99% core API availability. 
+- Built a pre-allocation inventory mechanism with full audit trail, including deduction, rollback and
+exception tracing, eliminating oversell and undersell issues and achieving 99.99% inventory accuracy. 
+- Established 7x24 on-call mechanism, led the team to support multiple new product launches and
+promotional campaigns with zero critical production incidents.
+2018.1-2020.10NikeFull stack system engineer
+**Dealer Master Data Management System** - Led a 4-member engineering team to build the dealer
+master data management system from scratch, owning the full lifecycle from requirement analysis,
+architecture design to development, testing and official launch. - Designed unified data models for
+dealers, physical stores and commodities, established standardized data governance workflows, and
+realized reliable cross-system data synchronization with upstream and downstream business systems.
+- Improved full-link data consistency across systems by 40% and reduced manual data maintenance
+workload by 50% after launch.
+**Dealer Order Capture System** - Led microservice architecture design and implementation for the
+dealer order capture system, built a distributed service ecosystem based on Spring Cloud with service
+discovery and load balancing. - Integrated OKTA third-party authentication service, implemented SSO
+based on JWT standard to ensure secure and consistent cross-system access. - Delivered performance
+optimization solutions including database sharding, asynchronous processing and batch computing
+for tens of millions of orders during peak booking windows, reducing core API latency by 60% and
+ensuring system stability under high traffic. - Owned requirement review, technical decision-making
+and team task management, ensuring on-time and high-quality delivery of all projects.
+2015.4-2017.12eBaySenior software engineer
+
+**eBay Main Station Refactoring Project** - Participated in the full-stack refactoring of the eBay
+official website, based on Spring and jQuery tech stack. - Took charge of online problem
+troubleshooting and root cause analysis, delivered targeted optimization solutions to ensure stable
+platform operation. 
+**Gumtree Classified Advertising Platform** - Responsible for the development of user management
+module and advertisement management module for the global classified advertising platform. -
+Designed and implemented anti-fraud functions based on user behavior analysis, effectively reducing
+malicious posting and fraudulent transactions.
+- Tech stack: Spring Boot, Kafka
+2011.8-2015.4EA(www.pogo.com)Junior software engineer
+** www.pogo.com ** 
+- Responsible for backend integration of various third-party systems for the Pogo casual game
+platform (SSH architecture). 
+- Participated in requirement review, feature development and daily system maintenance. 
+- Handled online production issues on a 7x24 on-call basis to support stable website operation. 
+- Tech stack: Spring, Hibernate, jQuery, MySQL
+Education
+2022.9-2024.5Illinois Institute of TechnologySoftware EngineeringMaster
+2015.3-2018.1Shanghai Marine UniversityComputer ScienceBachelor
+2007.9-2010.7Shanghai Marine UniversityTransportation Ma
+nagement
+Associate
+Social account
+JavaPythonWeb
+SpringVibe CodingRAG Agent develop

@@ -46,5 +46,17 @@
       "four": 24,
       "three": 1
     }
+  ],
+  "guides": [
+    {
+      "file": "DDD.docx",
+      "title": "DDD 领域驱动设计全面指南",
+      "counted": false
+    },
+    {
+      "file": "cloud.docx",
+      "title": "云原生知识全面指南",
+      "counted": false
+    }
   ]
 }

@@ -13,7 +13,8 @@ personal_study/
 ├── leetcode/            # LeetCode 题解（Python + TypeScript）
 ├── sql/                 # SQL 题解
 ├── system-design/       # 系统设计题解
-└── interview/           # Java 后端面试题库（Word，按频率排序）
+├── interview/           # Java 后端面试题库（Word，按频率排序）
+└── FDE/                 # Java 开发转型 FDE 学习路径与项目骨架
 ```
 
 ---
@@ -137,7 +138,25 @@ npx tsc --noEmit
 | 系统设计与优化面试高频题库.docx | 90 | 设计方法论、高并发高可用、性能优化、存储、消息、典型系统、线上排障（三段式解析） |
 | 其他面试高频题库.docx | 97 | 分布式理论、高并发架构、场景设计、网络/Linux、HTTPS、设计模式、DDD、gRPC（三段式解析） |
 
+另有 `DDD.docx` 专题指南，系统介绍战略设计、战术设计、架构落地、常见误区和电商订单履约完整案例；`cloud.docx` 覆盖容器、Kubernetes、微服务、DevOps、云平台、可观测性、安全、故障排查与 100 道面试题。两者均不计入题库统计。
+
 详见 [interview/README.md](interview/README.md)。
+
+---
+
+### FDE/ — Java 开发转型 FDE 学习路径
+
+面向 Java 后端工程师的 Forward Deployed Engineer 转型方案，基于 13+ 年零售电商与 AI 经历定制，包含：
+
+- FDE 角色认知、能力模型与 39 岁转型定位
+- 24 周学习路线（含 12 周冲刺 / 36 周深度版）
+- 10 大领域、110+ 个知识缺口与补足清单
+- 120 道 FDE 高频面试题及回答要点
+- 云平台、Kubernetes、数据/AI 认证组合建议
+- 6 个企业级实战项目骨架（Python/FastAPI + Next.js）：AI Shopping Assistant、Field Ops Copilot、Order Exception Hub、Document Intake Copilot、Regulated Private Deployment、Incident Copilot
+- 客户访谈、需求范围、方案评审、上线回滚、故障复盘、交接模板
+
+入口：[FDE/README.md](FDE/README.md)。
 
 ---
 
