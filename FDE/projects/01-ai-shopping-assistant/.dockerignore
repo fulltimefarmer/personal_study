@@ -1,0 +1,10 @@
+node_modules
+.venv
+__pycache__
+.git
+.env
+*.pyc
+db/chroma
+public/dist
+admin/dist
+.DS_Store

@@ -1,0 +1,67 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: lego-postgres
+    # 宿主机用 5433，避免和本机已有 PostgreSQL 5432 冲突
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: shopping_bot
+      POSTGRES_USER: lego
+      POSTGRES_PASSWORD: lego123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lego -d shopping_bot"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: lego-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=-1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: lego-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./db/chroma:/app/db/chroma
+      - ./files:/app/files
+    environment:
+      - LLM_PROVIDER=ollama
+      - LLM_MODEL=qwen2.5:3b
+      - ROUTER_MODEL=qwen2.5:3b
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - EMBED_PROVIDER=hash
+      - CHROMA_PERSIST_DIR=/app/db/chroma
+      - CHROMA_COLLECTION=lego_products
+      - PRODUCT_CSV_PATH=/app/files/products.csv
+      - DATABASE_URL=postgresql://lego:lego123@postgres:5432/shopping_bot
+      - DEBUG=false
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - TAVILY_API_KEY=${TAVILY_API_KEY:-}
+    depends_on:
+      ollama:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+  postgres_data:

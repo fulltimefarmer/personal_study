@@ -1,0 +1,269 @@
+══════════════════════════════════════════════════════════════════════
+  乐高智能导购助手「小砖家」— 项目架构与调用链说明
+══════════════════════════════════════════════════════════════════════
+
+【项目概述】
+  基于 Agentic RAG 架构的乐高商品智能导购与客服系统。
+  125 款真实乐高商品数据，主推理使用 DeepSeek API，
+  简单问题自动路由到本地 Ollama 节省费用。
+
+  技术栈：DeepSeek + Ollama(qwen2.5:3b) + ChromaDB + LangGraph + FastAPI + Vue 3
+
+
+══════════════════════════════════════════════════════════════════════
+一、文件入口 MAP
+══════════════════════════════════════════════════════════════════════
+
+  ┌─────────────────────────────────────────────────────────────────┐
+  │ 程序入口                                                         │
+  ├─────────────────────────────────────────────────────────────────┤
+  │ main.py:main()               # ═══════ 程序主入口 ═══════        │
+  │   └─ main.py:if __name__     # 🚀 启动点                        │
+  ├─────────────────────────────────────────────────────────────────┤
+  │ CLI 命令入口                                                    │
+  ├─────────────────────────────────────────────────────────────────┤
+  │ main.py:cmd_ingest()         # lego ingest → 重建向量库         │
+  │ main.py:cmd_query()          # lego query  → 固定RAG交互对话     │
+  │ main.py:cmd_agent()          # lego agent  → AgenticRAG交互对话  │
+  │ main.py:cmd_compare()        # lego compare→ 固定RAG vs Agent    │
+  │ main.py:cmd_stats()          # lego stats  → 查看向量库统计      │
+  │ main.py:cmd_eval()           # lego eval   → 召回评测            │
+  │ main.py:cmd_intent_test()    # lego intent → 意图路由测试        │
+  │ main.py:cmd_memory_test()    # lego memory → 记忆管理测试        │
+  ├─────────────────────────────────────────────────────────────────┤
+  │ 模块公开 API 入口                                               │
+  ├─────────────────────────────────────────────────────────────────┤
+  │ config.py:settings            # 全局配置单例（pydantic-settings） │
+  │ loader.py:build_embed_docs()  # 商品数据 → 向量文档              │
+  │ loader.py:load_clean()        # CSV → 清洗后 DataFrame            │
+  │ models.py:to_chroma_filter()  # 过滤条件 → ChromaDB 查询语法      │
+  │ embeddings.py:get_embeddings()# bge-m3 嵌入模型工厂函数          │
+  │ chroma_store.py:search()      # 语义检索（支持元数据过滤）        │
+  │ chroma_store.py:search_hybrid()# 混合排序检索（语义+价格+年龄）   │
+  │ chroma_store.py:add_documents()# 批量写入向量数据                 │
+  │ chroma_store.py:get_by_ids()  # 按 SKU 查询商品详情              │
+│   query_processor.py:classify_intent() # 意图路由（规则引擎）       │
+│   query_rewriter.py:rewrite()         # 指代消解（核心 LLM 重写）     │
+│   reranker.py:rerank()                # LLM 重排序 + 评分融合          │
+  │ query_processor.py:expand_query()    # 同义词查询扩展             │
+  │ query_processor.py:detect_age_intent()# 年龄意图检测              │
+  │ query_processor.py:detect_price_intent()# 价格意图检测            │
+  │ chain.py:RAGChain.query()     # 固定 RAG：检索→格式化→LLM 生成   │
+  │ chain.py:RAGChain.search_only()# 仅检索不生成（评测用）           │
+  │ tools.py:semantic_search()    # Agent 工具：语义搜索              │
+  │ tools.py:filter_search()      # Agent 工具：条件筛选              │
+  │ tools.py:get_product_detail() # Agent 工具：商品详情              │
+  │ tools.py:calculate_price()    # Agent 工具：价格计算              │
+  │ graph.py:build_agent_graph()  # 构建 LangGraph ReAct 工作流       │
+  │ graph.py:run_agent()          # 执行一次 Agent 对话（含记忆+防控） │
+  │ memory.py:get_memory()        # 全局会话记忆管理器                │
+  │ memory.py:ConversationMemory  # 两级记忆（滑动窗口+摘要压缩）     │
+│   guardrails.py:apply_guardrails() # 幻觉防控主入口（4步流水线）    │
+│   guardrails.py:no_result_response() # 无结果兜底回复               │
+│   reflection.py:ReflectionChain  # 回答后反思修正                   │
+│   planner.py:PlanAndExecuteAgent # 任务分解 + 逐步执行              │
+│   multi_agent.py:SupervisorAgent # 多 Agent 协作编排                │
+│   structured.py:StructuredOutput # Pydantic 强制结构化输出          │
+│   logging.py:setup_logging()    # loguru 日志配置                   │
+  └─────────────────────────────────────────────────────────────────┘
+
+
+══════════════════════════════════════════════════════════════════════
+二、项目调用链
+══════════════════════════════════════════════════════════════════════
+
+【链路 A：数据入库 (ingest)】
+  main.py:cmd_ingest()
+    → ProductDataLoader(CSV路径)
+        → load_clean()              解析CSV → 去重 → 清洗 → DataFrame
+        → build_embed_docs()        每行商品 → 嵌入文本 + 元数据
+    → ChromaStore()
+        → delete_collection()       清空旧数据
+        → add_documents(docs)       写入向量库
+          → get_embeddings()        获取 bge-m3 嵌入模型
+          → Chroma.add_documents()  LangChain → ChromaDB 底层写入
+
+
+【链路 B：固定 RAG 查询 (query)】
+  main.py:cmd_query()
+    → _route_intent(question)       意图路由（闲聊/无效→预设回复）
+      → classify_intent()           规则引擎分类
+      → get_intent_response()       非商品咨询直接返回
+    → RAGChain.query(question)
+        → _retrieve(query)
+          → expand_query()          同义词扩展
+          → detect_age_intent()     年龄意图解析
+          → detect_price_intent()   价格意图解析
+          → ChromaStore.search() 或 search_hybrid()  向量检索
+        → _format_docs(results)     检索结果 → LLM 可读上下文
+        → RAG_PROMPT.format()       Prompt 模板填充
+        → LLM.invoke()              大模型生成回答
+
+
+【链路 C：Agentic RAG 查询 (agent)】
+  main.py:cmd_agent()
+    → _route_intent(question)       意图路由
+    → run_agent(question, session_id)
+        → get_memory(session_id)    获取/创建会话记忆
+        → memory.get_context()      摘要 + 最近消息 → 上下文
+        → _graph.invoke(initial_state)  执行 LangGraph 工作流:
+            ┌────────────────────────────────────────────────┐
+            │  START → agent_node → [有 tool_calls?]         │
+            │     ↑        │              │                  │
+            │     │        └── 无 ──────→ END                │
+            │     │              │ 有                         │
+            │     └── tool_node ←┘                           │
+            │          (ToolNode 并行执行工具)                │
+            │  最多循环 MAX_TOOL_CALLS=5 次                   │
+            └────────────────────────────────────────────────┘
+            agent_node: SystemPrompt + 历史 → LLM 决策
+            tool_node:  提取 tool_calls → 调用 @tool 函数 → ToolMessage
+            _should_continue: AIMessage 有 tool_calls? → 继续/结束
+        → _extract_sources()         从 ToolMessage 提取来源
+        → apply_guardrails()         4步幻觉防控流水线
+        → memory.add_round()         更新会话记忆
+        → return {answer, messages, tool_calls_log, sources, guardrails}
+
+
+【链路 D：对比评测 (compare)】
+  main.py:cmd_compare()
+    ├─ [固定 RAG]
+    │   RAGChain.query() → 结果 + apply_guardrails()
+    └─ [Agentic RAG]
+        run_agent() → 结果 + 内置 guardrails
+    → 输出：回答对比 + 耗时 + 幻觉防控状态 + 工具调用次数
+
+
+【链路 E：幻觉防控流水线 (guardrails, 在 run_agent / compare 内调用)】
+  apply_guardrails(answer, sources, query)
+    ├─ Step1: 无结果检查 → 检索为空 + 回答像推荐? → 标注警告
+    ├─ Step2: 溯源校验   → 回答中商品名是否都在检索结果中?
+    ├─ Step3: 来源标注   → 在回答末尾追加 📦 参考商品来源（含SKU/价格/匹配度）
+    └─ Step4: 相关性检查 → 回答与问题的关键词重叠度 > 5%?
+
+
+【链路 F：记忆管理 (memory, 在 run_agent 内自动触发)】
+  ConversationMemory 内部:
+    ┌──────────────────────────────────────┐
+    │  full_history (完整历史)              │
+    │  ┌────────────┬────────────────────┐ │
+    │  │ summary    │ recent (最近N条)    │ │
+    │  │ (旧消息压缩)│                    │ │
+    │  └────────────┴────────────────────┘ │
+    └──────────────────────────────────────┘
+    触发条件：len(full_history) > max_total(默认30)
+    压缩方式：LLM 将前半历史摘要为2-3句（失败则降级为拼接）
+    输出：get_context() → [摘要SystemMessage] + recent_messages
+
+
+══════════════════════════════════════════════════════════════════════
+三、模块目录结构与职责
+══════════════════════════════════════════════════════════════════════
+
+shopping_assistant/
+├── main.py                        【入口层】CLI 命令行入口，含 8 个子命令
+├── .env                           环境变量（Ollama地址、模型名、路径）
+├── pyproject.toml                 依赖管理（uv/pip）
+│
+├── app/                           【主应用包】
+│   ├── config.py                  【配置层】pydantic-settings 类型安全配置，
+│   │                              自动从 .env 读取，全局单例 settings
+│   │
+│   ├── data/                      【数据层】商品数据 ETL 管道
+│   │   ├── loader.py              CSV解析 → 数据清洗 → 向量文档生成
+│   │   └── models.py              Pydantic 数据模型（Product/ProductFilter/
+│   │                              SearchResult），含 ChromaDB 过滤条件转换
+│   │
+│   ├── vector_store/              【向量库层】ChromaDB 封装
+│   │   ├── embeddings.py          bge-m3 嵌入模型工厂
+│   │   └── chroma_store.py        写入/检索/统计 CRUD，含混合排序算法
+│   │                              (语义55%+价格25%+年龄20%加权)
+│   │
+│   ├── rag/                       【RAG 检索层】固定流程的检索增强生成
+│   │   ├── query_processor.py     查询预处理：同义词扩展、意图路由、价格/年龄检测
+│   │   ├── query_rewriter.py      指代消解：LLM 上下文补全 + LRU 缓存
+│   │   ├── reranker.py            LLM 重排序：评分融合（向量+LLM+启发式）
+│   │   └── chain.py               RAGChain：检索→格式化→LLM 生成的 LCEL 链
+│   │
+│   ├── agent/                     【Agent 智能体层】LLM 自主决策的工具调用
+│   │   ├── state.py               AgentState：LangGraph 状态定义(TypedDict)
+│   │   ├── tools.py               11 个 @tool 业务工具(搜索/售后/订单/会员/活动)
+│   │   ├── graph.py               LangGraph ReAct 工作流 + run_agent() API
+│   │   ├── reflection.py          Reflection：回答后自我反思修正
+│   │   ├── planner.py             Plan-and-Execute：复杂任务分解执行
+│   │   ├── multi_agent.py         Multi-Agent：Supervisor + 专业子 Agent
+│   │   └── structured.py          Structured Output：Pydantic 强制结构化输出
+│   │
+│   ├── core/                      【核心能力层】横切关注点
+│   │   ├── memory.py              两级对话记忆（滑动窗口 + 摘要压缩）
+│   │   ├── guardrails.py          幻觉防控（溯源校验 + 来源标注 + 无结果兜底）
+│   │   ├── exceptions.py          全局异常处理 + operation_log 上下文
+│   │   └── logging.py             loguru 日志配置
+│   │
+│   └── api/                       【API 接口层】
+│       ├── server.py              FastAPI 应用工厂 + CORS
+│       ├── routes.py              REST + WebSocket 路由
+│       ├── schemas.py             请求/响应 Pydantic 模型
+│       └── ws_manager.py          WebSocket 连接管理 + pub/sub 广播
+│
+├── public/                        【前端层】Vue 3 聊天界面 (Port 3000)
+│   └── src/App.vue                消息气泡/工具调用/思考状态
+│
+├── admin/                         【管理后台】Vue 3 管理面板 (Port 3001)
+│   └── src/App.vue                会话监控/人工干预/接管对话框
+│
+├── scripts/                       【工具脚本】
+│   ├── verify_env.py              环境验证
+│   ├── data_loader.py             原始数据解析
+│   ├── test_data.py               数据验证
+│   ├── init_vector_store.py       向量库初始化
+│   ├── eval_recall.py             召回评测（命中率/MRR/精确率）
+│   └── eval_quality.py            RAGAS + LLM-as-Judge 质量评测
+│
+├── files/products.csv             125 条乐高商品数据
+├── db/chroma/                     ChromaDB 持久化存储
+└── plan.md                        7 天开发学习计划
+
+
+══════════════════════════════════════════════════════════════════════
+四、核心设计决策
+══════════════════════════════════════════════════════════════════════
+
+  1. 固定 RAG vs Agentic RAG
+     固定RAG：检索→格式化→生成，一次调用，快但不够灵活
+     AgenticRAG：LLM自主决定是否检索、用什么工具、检索几次，慢但更准
+
+  2. 混合排序
+     语义相似度(55%) + 年龄匹配(20%) + 价格匹配(25%)
+     L2距离用 1/(1+distance) 归一化为 [0,1] 相似度
+
+  3. 两级记忆
+     Level1 滑动窗口：保留最近 10 条消息保证即时连贯
+     Level2 摘要压缩：超过 30 条时 LLM 压缩旧消息
+
+  4. 意图路由
+     规则引擎（非 LLM）：优先级 off_topic > chitchat > product_inquiry
+     强 off-topic 信号(政治/编程/医疗/手机)直接拒绝，不消耗 LLM
+
+  5. 幻觉防控 4 步流水线
+     无结果检查 → 溯源校验 → 来源标注 → 相关性检查
+
+
+══════════════════════════════════════════════════════════════════════
+五、数据流向总图
+══════════════════════════════════════════════════════════════════════
+
+  products.csv ──→ ProductDataLoader ──→ ChromaStore ──→ ChromaDB(磁盘)
+                                                    ↑
+  用户输入 ──→ classify_intent() ──→ ┌─ chitchat/off_topic: 预设回复
+                                      └─ product_inquiry:
+                                           ├─ 固定RAG: query_processor → ChromaStore.search → RAGChain → LLM → 回答
+                                           └─ Agent:  SystemPrompt+历史+tools → LangGraph(ReAct循环) → LLM决策
+                                                                                   ↓
+                                                              semantic_search / filter_search / get_product_detail / calculate_price
+                                                                                   ↓
+                                                                         guardrails(4步防控)
+                                                                                   ↓
+                                                                         memory(更新会话)
+                                                                                   ↓
+                                                                              最终回答
